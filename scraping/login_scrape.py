@@ -8,6 +8,7 @@ username = 'automated'
 password = 'automatedautomated'
 username_selector = 'id_username'
 password_selector = 'id_password'
+home_xpath = '/html/body/nav/div/a'
 
 
 def get_driver(url):
@@ -45,15 +46,34 @@ def find_and_input(driver, selector, text):
     return input
 
 
+def find_element_by_xpath(driver, xpath):
+    return driver.find_element(By.XPATH, xpath)
+
+
+def find_and_click(driver, xpath):
+    element = find_element_by_xpath(driver, xpath)
+    element.click()
+
+
+def clean_text(text):
+    """Extract the temperature from text"""
+    output = float(text.split(": ")[1])
+    return output
+
+
 def main():
     driver = get_driver(url)
 
     find_and_input(driver, username_selector, username)
     password_input = find_and_input(driver, password_selector, password)
     password_input.submit()
-
     print(driver.current_url)
+
+    find_and_click(driver, home_xpath)
     time.sleep(2)
+    to_scrape = find_element_by_id(driver, 'displaytimer')
+
+    return clean_text(to_scrape.text)
 
 
 print(main())
