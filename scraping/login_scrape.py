@@ -9,6 +9,7 @@ password = 'automatedautomated'
 username_selector = 'id_username'
 password_selector = 'id_password'
 home_xpath = '/html/body/nav/div/a'
+timer_selector = 'displaytimer'
 
 
 def get_driver(url):
@@ -71,7 +72,7 @@ def main():
 
     find_and_click(driver, home_xpath)
     time.sleep(2)
-    to_scrape = find_element_by_id(driver, 'displaytimer')
+    to_scrape = find_element_by_id(driver, timer_selector)
 
     return clean_text(to_scrape.text)
 
